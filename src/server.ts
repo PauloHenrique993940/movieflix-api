@@ -4,7 +4,7 @@ const port = 3000;
 const app = express();
 //get, post, put, patch, delete
 app.get("/movies", (req, res) =>{
-  res.send("Listagem de filmes");
+  res.send("Listagem de Filmes");
 });
 
 app.listen(port, () =>{
