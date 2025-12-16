@@ -9,6 +9,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: env("postgresql://postgres:4321@localhost:5432/movieflix"),
+    url: env("DATABASE_URL"),
   },
 });
