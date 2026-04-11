@@ -23,14 +23,16 @@ app.get('/movies', async (req: Request, res: Response) => {
     const { genre } = req.query;
 
     const movies = await prisma.movie.findMany({
-      where: genre ? {
-        genres: {
-          name: {
-            equals: genre as string,
-            mode: 'insensitive',
+      where: genre
+        ? {
+          genres: {
+            name: {
+              equals: genre as string,
+              mode: 'insensitive',
+            },
           },
-        },
-      } : {},
+        }
+        : {},
       orderBy: {
         title: 'asc',
       },
