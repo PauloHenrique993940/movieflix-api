@@ -14,9 +14,17 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 // Rota para buscar todos os filmes
-app.get('/movies', async (req, res) => {
+app.get('/movies', async (_, res) => {
   try {
-    const movies = await prisma.movie.findMany();
+    const movies = await prisma.movie.findMany({
+      orderBy: {
+        title: 'asc',
+      },
+      include: {
+        genres: true,
+        languages: true,
+      },
+    });
     res.json(movies);
   }
   catch (error) {
