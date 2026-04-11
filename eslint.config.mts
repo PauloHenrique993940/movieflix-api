@@ -6,7 +6,7 @@ import stylistic from '@stylistic/eslint-plugin';
 export default tseslint.config(
   // Arquivos e pastas que o ESLint deve ignorar
   {
-    ignores: ['dist/**', 'node_modules/**', 'package-lock.json'],
+    ignores: ['dist/**', 'node_modules/**', 'package-lock.json', 'src/generated/**'],
   },
   // Configurações recomendadas para JavaScript e TypeScript
   js.configs.recommended,
