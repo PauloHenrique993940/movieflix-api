@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
@@ -25,7 +25,7 @@ model Language {
 
 model Movie {
   id           Int        @id @default(autoincrement())
-  title        String?    @db.VarChar(100)
+  title        String     @unique @db.VarChar(100)
   release_date DateTime?  @db.Date
   genre_id     Int?
   language_id  Int?
