@@ -8,7 +8,7 @@
   "paths": {
     "/movies": {
       "get": {
-      "tags": ["Movie"],
+        "tags": ["Movie"],
         "summary": "Obter todos os filmes",
         "responses": {
           "200": {
@@ -26,6 +26,70 @@
           }
         }
       }
+    },
+    "/movies/{id}": {
+      "put": {
+        "tags": ["Movie"],
+        "summary": "Atualizar um filme",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do filme a ser atualizado"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MovieInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Filme atualizado com sucesso"
+          },
+          "404": {
+            "description": "Filme não encontrado"
+          },
+          "500": {
+            "description": "Falha ao atualizar o filme"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Movie"],
+        "summary": "Deletar um filme",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do filme a ser deletado"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Filme deletado com sucesso"
+          },
+          "404": {
+            "description": "Filme não encontrado"
+          },
+          "500": {
+            "description": "Falha ao deletar o filme"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -33,57 +97,48 @@
       "Movie": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "ID do filme"
-          },
-          "title": {
-            "type": "string",
-            "description": "Título do filme"
-          },
-          "genre_id": {
-            "type": "integer",
-            "description": "Gênero do filme"
-          },
+          "id": { "type": "integer" },
+          "title": { "type": "string" },
+          "genre_id": { "type": "integer" },
           "genres": {
             "type": "object",
             "properties": {
-              "id": {
-                "type": "integer",
-                "description": "ID do gênero"
-              },
-              "name": {
-                "type": "string",
-                "description": "Nome do gênero"
-              }
-            },
-            "description": "Gêneros do filme"
+              "id": { "type": "integer" },
+              "name": { "type": "string" }
+            }
           },
-          "language_id": {
-            "type": "integer",
-            "description": "Idioma do filme"
-          },
+          "language_id": { "type": "integer" },
           "languages": {
             "type": "object",
             "properties": {
-              "id": {
-                "type": "integer",
-                "description": "ID do idioma"
-              },
-              "name": {
-                "type": "string",
-                "description": "Nome da idioma"
-              }
-            },
-            "oscar_count": {
-              "type": "integer",
-              "description": "Número de Oscars do filme"
-            },
-            "release_date": {
-              "type": "string",
-              "format": "date",
-              "description": "Data de lançamento do filme"
+              "id": { "type": "integer" },
+              "name": { "type": "string" }
             }
+          },
+          "oscar_count": { "type": "integer" },
+          "release_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "MovieInput": {
+        "type": "object",
+        "required": [
+          "title",
+          "genre_id",
+          "language_id",
+          "oscar_count",
+          "release_date"
+        ],
+        "properties": {
+          "title": { "type": "string" },
+          "genre_id": { "type": "integer" },
+          "language_id": { "type": "integer" },
+          "oscar_count": { "type": "integer" },
+          "release_date": {
+            "type": "string",
+            "format": "date"
           }
         }
       }
