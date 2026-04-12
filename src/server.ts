@@ -1,6 +1,8 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 import 'dotenv/config';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json' with { type: 'json' };
 
 import pg from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -9,6 +11,7 @@ import { PrismaClient } from './generated/prisma/index.js';
 const port = 3000;
 const app = express();
 app.use(express.json());
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Configurando a conexão direta com o PostgreSQL (via Adapter)
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
