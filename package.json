@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "npx tsx watch src/server.ts",
     "start": "node dist/server.js",
-    "build": "tsc",
+    "build:tsc": "tsc",
+    "build:copy": "copyfiles -u 1 \"src/**/*.json\" dist",
+    "build": "npm run build:tsc && npm run build:copy",
     "lint": "eslint .",
     "postinstall": "prisma generate"
   },
@@ -21,6 +23,7 @@
     "@types/node": "^25.5.2",
     "@types/pg": "^8.20.0",
     "@types/swagger-ui-express": "^4.1.8",
+    "copyfiles": "^2.4.1",
     "eslint": "^10.2.0",
     "globals": "^17.4.0",
     "jiti": "^2.6.1",

@@ -1,239 +1,239 @@
 {
-    "openapi": "3.0.4",
-    "info": {
-        "title": "MovieFlix API",
-        "version": "1.0.0",
-        "description": "API para gerenciar filmes do MovieFlix"
-    },
-    "paths": {
-        "/movies": {
-            "get": {
-                "tags": ["Movie"],
-                "summary": "Listar filmes com filtros e paginação",
-                "parameters": [
-                    {
-                        "name": "genre",
-                        "in": "query",
-                        "schema": { "type": "string" },
-                        "description": "Filtrar por nome do gênero"
-                    },
-                    {
-                        "name": "title",
-                        "in": "query",
-                        "schema": { "type": "string" },
-                        "description": "Buscar por título"
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "schema": { "type": "integer", "default": 1 }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "schema": { "type": "integer", "default": 10 }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lista de filmes",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Movie"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Erro interno"
-                    }
+  "openapi": "3.0.4",
+  "info": {
+    "title": "MovieFlix API",
+    "version": "1.0.0",
+    "description": "API para gerenciar filmes do MovieFlix"
+  },
+  "paths": {
+    "/movies": {
+      "get": {
+        "tags": ["Movie"],
+        "summary": "Listar filmes com filtros e paginação",
+        "parameters": [
+          {
+            "name": "genre",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Filtrar por nome do gênero"
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Buscar por título"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "default": 1 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer", "default": 10 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de filmes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Movie"
+                  }
                 }
-            },
-            "post": {
-                "tags": ["Movie"],
-                "summary": "Criar um filme",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/MovieInput"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Filme criado com sucesso"
-                    },
-                    "400": {
-                        "description": "Dados inválidos"
-                    },
-                    "409": {
-                        "description": "Filme já existe"
-                    }
-                }
+              }
             }
+          },
+          "500": {
+            "description": "Erro interno"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Movie"],
+        "summary": "Criar um filme",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MovieInput"
+              }
+            }
+          }
         },
-        "/movies/{id}": {
-            "get": {
-                "tags": ["Movie"],
-                "summary": "Buscar filme por ID",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "integer" }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Filme encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Movie"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "ID inválido"
-                    },
-                    "404": {
-                        "description": "Filme não encontrado"
-                    }
-                }
-            },
-            "put": {
-                "tags": ["Movie"],
-                "summary": "Atualizar um filme (parcial)",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "integer" }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/MovieUpdate"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Filme atualizado"
-                    },
-                    "400": {
-                        "description": "Dados inválidos"
-                    },
-                    "404": {
-                        "description": "Filme não encontrado"
-                    },
-                    "409": {
-                        "description": "Título já existe"
-                    }
-                }
-            },
-            "delete": {
-                "tags": ["Movie"],
-                "summary": "Deletar um filme",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "integer" }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Filme deletado"
-                    },
-                    "400": {
-                        "description": "ID inválido"
-                    },
-                    "404": {
-                        "description": "Filme não encontrado"
-                    }
-                }
-            }
+        "responses": {
+          "201": {
+            "description": "Filme criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "409": {
+            "description": "Filme já existe"
+          }
         }
+      }
     },
-    "components": {
-        "schemas": {
-            "Movie": {
-                "type": "object",
-                "properties": {
-                    "id": { "type": "integer" },
-                    "title": { "type": "string" },
-                    "genre_id": { "type": "integer" },
-                    "genres": {
-                        "type": "object",
-                        "properties": {
-                            "id": { "type": "integer" },
-                            "name": { "type": "string" }
-                        }
-                    },
-                    "language_id": { "type": "integer" },
-                    "languages": {
-                        "type": "object",
-                        "properties": {
-                            "id": { "type": "integer" },
-                            "name": { "type": "string" }
-                        }
-                    },
-                    "oscar_count": { "type": "integer" },
-                    "release_date": {
-                        "type": "string",
-                        "format": "date"
-                    }
+    "/movies/{id}": {
+      "get": {
+        "tags": ["Movie"],
+        "summary": "Buscar filme por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Filme encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
                 }
-            },
-            "MovieInput": {
-                "type": "object",
-                "required": [
-                    "title",
-                    "genre_id",
-                    "language_id",
-                    "oscar_count",
-                    "release_date"
-                ],
-                "properties": {
-                    "title": { "type": "string" },
-                    "genre_id": { "type": "integer" },
-                    "language_id": { "type": "integer" },
-                    "oscar_count": { "type": "integer" },
-                    "release_date": {
-                        "type": "string",
-                        "format": "date"
-                    }
-                }
-            },
-            "MovieUpdate": {
-                "type": "object",
-                "properties": {
-                    "title": { "type": "string" },
-                    "genre_id": { "type": "integer" },
-                    "language_id": { "type": "integer" },
-                    "oscar_count": { "type": "integer" },
-                    "release_date": {
-                        "type": "string",
-                        "format": "date"
-                    }
-                }
+              }
             }
+          },
+          "400": {
+            "description": "ID inválido"
+          },
+          "404": {
+            "description": "Filme não encontrado"
+          }
         }
+      },
+      "put": {
+        "tags": ["Movie"],
+        "summary": "Atualizar um filme (parcial)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MovieUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Filme atualizado"
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "404": {
+            "description": "Filme não encontrado"
+          },
+          "409": {
+            "description": "Título já existe"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Movie"],
+        "summary": "Deletar um filme",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Filme deletado"
+          },
+          "400": {
+            "description": "ID inválido"
+          },
+          "404": {
+            "description": "Filme não encontrado"
+          }
+        }
+      }
     }
+  },
+  "components": {
+    "schemas": {
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "title": { "type": "string" },
+          "genre_id": { "type": "integer" },
+          "genres": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer" },
+              "name": { "type": "string" }
+            }
+          },
+          "language_id": { "type": "integer" },
+          "languages": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer" },
+              "name": { "type": "string" }
+            }
+          },
+          "oscar_count": { "type": "integer" },
+          "release_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "MovieInput": {
+        "type": "object",
+        "required": [
+          "title",
+          "genre_id",
+          "language_id",
+          "oscar_count",
+          "release_date"
+        ],
+        "properties": {
+          "title": { "type": "string" },
+          "genre_id": { "type": "integer" },
+          "language_id": { "type": "integer" },
+          "oscar_count": { "type": "integer" },
+          "release_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "MovieUpdate": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "genre_id": { "type": "integer" },
+          "language_id": { "type": "integer" },
+          "oscar_count": { "type": "integer" },
+          "release_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    }
+  }
 }
