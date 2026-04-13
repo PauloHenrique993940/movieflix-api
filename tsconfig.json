@@ -34,20 +34,14 @@
 
     // Recommended Options
     "strict": true,
-    "jsx": "react-jsx",
+    // "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
-  "include": [
-    "src/**/*",
-    "src", "swagger.json", "tests"
-  ],
-  "exclude": [
-    "node_modules",
-    "prisma.config.ts"
-  ]
+  "include": ["src/**/*", "src", "swagger.json", "tests"],
+  "exclude": ["node_modules", "prisma.config.ts"]
 }
