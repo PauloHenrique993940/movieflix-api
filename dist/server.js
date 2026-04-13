@@ -9,7 +9,12 @@ const port = 3000;
 const app = express();
 app.use(express.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+/* =========================
+  DATABASE
+========================= */
+const pool = new pg.Pool({
+    connectionString: process.env.DATABASE_URL,
+});
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 /* =========================
@@ -45,7 +50,8 @@ app.get('/movies', async (req, res) => {
         });
         res.status(200).json(movies);
     }
-    catch {
+    catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Erro ao buscar filmes' });
     }
 });
@@ -70,7 +76,8 @@ app.get('/movies/:id', async (req, res) => {
         }
         res.status(200).json(movie);
     }
-    catch {
+    catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Erro ao buscar filme' });
     }
 });
@@ -113,7 +120,7 @@ app.post('/movies', async (req, res) => {
     }
 });
 /* =========================
-  UPDATE MOVIE
+  UPDATE MOVIE (FIX PRISMA)
 ========================= */
 app.put('/movies/:id', async (req, res) => {
     try {
@@ -126,42 +133,32 @@ app.put('/movies/:id', async (req, res) => {
         if (!movie) {
             return res.status(404).json({ message: 'Filme não encontrado' });
         }
-        if (title) {
-            const exists = await prisma.movie.findFirst({
-                where: {
-                    title: { equals: title, mode: 'insensitive' },
-                    id: { not: id },
-                },
-            });
-            if (exists) {
-                return res.status(409).json({ message: 'Título já existe' });
-            }
+        // objeto seguro (SEM undefined)
+        const data = {};
+        if (title !== undefined)
+            data.title = title;
+        if (oscar_count !== undefined)
+            data.oscar_count = oscar_count;
+        if (release_date !== undefined) {
+            data.release_date = new Date(release_date);
         }
         if (genre_id !== undefined) {
             const genre = await prisma.genre.findUnique({ where: { id: genre_id } });
             if (!genre) {
                 return res.status(400).json({ message: 'Gênero inválido' });
             }
+            data.genres = { connect: { id: genre_id } };
         }
         if (language_id !== undefined) {
             const language = await prisma.language.findUnique({ where: { id: language_id } });
             if (!language) {
                 return res.status(400).json({ message: 'Idioma inválido' });
             }
+            data.languages = { connect: { id: language_id } };
         }
         const updatedMovie = await prisma.movie.update({
             where: { id },
-            data: {
-                title: title ?? undefined,
-                oscar_count: oscar_count ?? undefined,
-                release_date: release_date ? new Date(release_date) : undefined,
-                ...(genre_id !== undefined && {
-                    genres: { connect: { id: genre_id } },
-                }),
-                ...(language_id !== undefined && {
-                    languages: { connect: { id: language_id } },
-                }),
-            },
+            data,
         });
         res.status(200).json(updatedMovie);
     }
@@ -186,11 +183,16 @@ app.delete('/movies/:id', async (req, res) => {
         await prisma.movie.delete({ where: { id } });
         res.status(204).send();
     }
-    catch {
+    catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Erro ao deletar filme' });
     }
 });
+/* =========================
+  START SERVER
+========================= */
 app.listen(port, () => {
     console.log(`🚀 Server running on http://localhost:${port}`);
+    console.log(`📄 Swagger: http://localhost:${port}/docs`);
 });
 //# sourceMappingURL=server.js.map

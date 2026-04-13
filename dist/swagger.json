@@ -112,7 +112,7 @@
             },
             "put": {
                 "tags": ["Movie"],
-                "summary": "Atualizar um filme",
+                "summary": "Atualizar um filme (parcial)",
                 "parameters": [
                     {
                         "name": "id",
@@ -126,7 +126,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/MovieInput"
+                                "$ref": "#/components/schemas/MovieUpdate"
                             }
                         }
                     }
@@ -210,6 +210,19 @@
                     "oscar_count",
                     "release_date"
                 ],
+                "properties": {
+                    "title": { "type": "string" },
+                    "genre_id": { "type": "integer" },
+                    "language_id": { "type": "integer" },
+                    "oscar_count": { "type": "integer" },
+                    "release_date": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                }
+            },
+            "MovieUpdate": {
+                "type": "object",
                 "properties": {
                     "title": { "type": "string" },
                     "genre_id": { "type": "integer" },
