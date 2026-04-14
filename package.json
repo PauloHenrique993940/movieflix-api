@@ -7,7 +7,7 @@
     "dev": "npx tsx watch src/server.ts",
     "start": "node dist/server.js",
     "build:tsc": "tsc",
-    "build:copy": "copyfiles -u 1 \"src/**/*.json\" dist",
+    "build:copy": "mkdir -p dist && cp src/**/*.json dist 2>/dev/null || true",
     "build": "npm run build:tsc && npm run build:copy",
     "lint": "eslint .",
     "postinstall": "prisma generate"
